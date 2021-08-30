@@ -13,13 +13,13 @@ public class User {
 		this.last_name = last_name;
 	}
 	
-	public String boasVindas(String cpf) {
-		if(this.cpf.equals(cpf)) {
-			return "Olá, "+ this.title + " " + this.first_name;
-		}
-		else
-		{
-			return "Usuário não encontrado";
-		}
+	public String greetUser(String searchVariable) {
+		return "Olá, "+ this.title + " " + this.first_name;
+	}
+	
+	@Override
+	public String toString() {
+		return "User [cpf=" + cpf + ", email=" + email + ", title=" + title + ", first_name=" + first_name
+				+ ", last_name=" + last_name + "]";
 	}
 }
