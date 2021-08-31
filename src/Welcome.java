@@ -1,13 +1,12 @@
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-
 
 public class Welcome {
 	public String searchUserByCpf(Map<String, User> map, String input_cpf){
-		if(map.containsKey(input_cpf)) {
-			return map.get(input_cpf).greetUser(input_cpf);
+		User user = map.get(input_cpf);
+		if(user != null) {
+			return user.greetUser(input_cpf);
 		}
 		return "Usuário não encontrado";
 	}
