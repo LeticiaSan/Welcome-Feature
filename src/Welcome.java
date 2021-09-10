@@ -80,7 +80,7 @@ public class Welcome {
 				System.out.println(welcome.searchUserByEmailAdress(mapEmail, searchVariable));
 			}
 			else {
-				System.out.println("Usuário não encontrado1");
+				System.out.println("Usuário não encontrado");
 			}
 		}
 		//sc.close();
