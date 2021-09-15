@@ -56,33 +56,46 @@ public class Welcome {
 	
 	public static void main(String[] args) {
 		Welcome welcome = new Welcome();
-		Scanner sc = new Scanner(System.in);
-		User user1 = new User("123.456.789-01","alvaro@domain.com","Sr.","Álvaro","Magalhães");
-		User user2 = new User("123.456.779-01","joao@domain.com","Dr.","João","House");
-		User user3 = new User(null,"nulo@domain.com","Dr.","nulo","nulo");
-
-		Map<String, User> mapCpf = new HashMap<String, User>();
-		mapCpf.put(welcome.turnCpfNumbersOnly(user1.cpf), user1);
-		mapCpf.put(welcome.turnCpfNumbersOnly(user2.cpf), user2);
-		mapCpf.put(welcome.turnCpfNumbersOnly(user3.cpf), user3);
+		WelcomeServices welcomeServices = new WelcomeServices();
 		
-		Map<String, User> mapEmail = new HashMap<String, User>();
-		mapEmail.put(user1.email, user1);
-		mapEmail.put(user2.email, user2);
-		mapEmail.put(user3.email, user3);
-					
+		Scanner sc = new Scanner(System.in);
+//		User user1 = new User("123.456.789-01","alvaro@domain.com","Sr.","Álvaro","Magalhães");
+//		User user2 = new User("123.456.779-01","joao@domain.com","Dr.","João","House");
+//		User user3 = new User(null,"nulo@domain.com","Dr.","nulo","nulo");
+//
+//		Map<String, User> mapCpf = new HashMap<String, User>();
+//		mapCpf.put(welcome.turnCpfNumbersOnly(user1.cpf), user1);
+//		mapCpf.put(welcome.turnCpfNumbersOnly(user2.cpf), user2);
+//		mapCpf.put(welcome.turnCpfNumbersOnly(user3.cpf), user3);
+//		
+//		Map<String, User> mapEmail = new HashMap<String, User>();
+//		mapEmail.put(user1.email, user1);
+//		mapEmail.put(user2.email, user2);
+//		mapEmail.put(user3.email, user3);
+//					
+//		while(true){
+//			String searchVariable = sc.nextLine();
+//			if(Welcome.verifyCpf(searchVariable)) {
+//				System.out.println(welcome.searchUserByCpf(mapCpf, welcome.turnCpfNumbersOnly(searchVariable)));
+//			}
+//			else if(Welcome.verifyEmailAdress(searchVariable)) {
+//				System.out.println(welcome.searchUserByEmailAdress(mapEmail, searchVariable));
+//			}
+//			else {
+//				System.out.println("Usuário não encontrado");
+//			}
+//		}
 		while(true){
 			String searchVariable = sc.nextLine();
-			if(Welcome.verifyCpf(searchVariable)) {
-				System.out.println(welcome.searchUserByCpf(mapCpf, welcome.turnCpfNumbersOnly(searchVariable)));
+			if(WelcomeServices.verifyCpf(searchVariable)) {
+				System.out.println(welcomeServices.searchUserByCpf(welcomeServices.turnCpfNumbersOnly(searchVariable)));
 			}
-			else if(Welcome.verifyEmailAdress(searchVariable)) {
-				System.out.println(welcome.searchUserByEmailAdress(mapEmail, searchVariable));
+			else if(WelcomeServices.verifyEmailAdress(searchVariable)) {
+				System.out.println(welcomeServices.searchUserByEmailAdress(searchVariable));
 			}
 			else {
-				System.out.println("Usuário não encontrado");
+				System.out.println("Usuário não encontrado1");
 			}
 		}
-		//sc.close();
 	}
 }
