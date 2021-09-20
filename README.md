@@ -6,5 +6,4 @@
 |    🔹    |[US1 and US2](https://github.com/LeticiaSan/Welcome-Feature/tree/US1-and-US2) |
 
 # Tecnologias💻<br>
-- _FrameWork_<br>
 <img alt="Java" src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white"/><br>
