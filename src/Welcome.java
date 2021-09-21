@@ -1,30 +1,31 @@
 import java.util.Scanner;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Welcome {
-	public String searchUserByCpf(Map<String, User> map, String input_cpf){
-		User user = map.get(input_cpf);
-		if(user != null) {
-			return user.greetUser(input_cpf);
-		}
-		return "Usuário não encontrado";
-	}
-	
+		
 	public static void main(String[] args) {
-		Welcome welcome = new Welcome();
-		Scanner sc = new Scanner(System.in);
+		WelcomeServices welcomeServices = new WelcomeServices();
+		
 		User user1 = new User("123.456.789-01","alvaro@domain.com","Sr.","Álvaro","Magalhães");
 		User user2 = new User("123.456.779-01","joao@domain.com","Dr.","João","House");
+		User user3 = new User("123.456.777-01","gerdadir@domain.com","Dr.","Gerdadir","Cavalcanti");
 		
-		String input_cpf = sc.nextLine();
-		
-		Map<String, User> map = new HashMap<String, User>();
-		map.put(user1.cpf, user1);
-		map.put(user2.cpf, user2);
-				
-		System.out.println(welcome.searchUserByCpf(map, input_cpf));
-		
+		welcomeServices.put(user1);
+		welcomeServices.put(user2);
+		welcomeServices.put(user3);
+			
+		try (Scanner sc = new Scanner(System.in)) {
+			while(true){
+				String searchVariable = sc.nextLine();
+				if(welcomeServices.verifyCpf(searchVariable)) {
+					System.out.println(welcomeServices.searchUserByCpf(welcomeServices.turnCpfNumbersOnly(searchVariable)));
+				}
+				else if(welcomeServices.verifyEmailAdress(searchVariable)) {
+					System.out.println(welcomeServices.searchUserByEmailAdress(searchVariable));
+				}
+				else {
+					System.out.println("Usuário não encontrado");
+				}
+			}
+		}
 	}
-
 }

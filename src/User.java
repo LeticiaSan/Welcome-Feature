@@ -14,7 +14,7 @@ public class User {
 	}
 	
 	public String greetUser(String searchVariable) {
-		return "Olá, "+ this.title + " " + this.first_name;
+		return "Olá, "+ this.title + " " + this.first_name + " " + this.last_name;
 	}
 	
 	@Override
