@@ -7,24 +7,12 @@ public class WelcomeServices{
 	    
 		public Map<String, User> mapCpf = new HashMap<String, User>();
 		public Map<String, User> mapEmail = new HashMap<String, User>();
-		
-		public WelcomeServices(Map<String, User> mapCpf, Map<String, User> mapEmail){
-			this.mapCpf = mapCpf;
-			this.mapEmail = mapEmail;
+				
+		public void put(User user) {
+			this.mapCpf.put(this.turnCpfNumbersOnly(user.cpf), user);
+			this.mapEmail.put(user.email, user);
 		}
-		
-		public void putCpf(User user) {
-			mapCpf.put(user.cpf, user);
-		}
-		
-		public String listarMap(Map<String, User> mapCpf) {
-			return mapCpf.toString();
-		}
-		
-		public void putEmail(User user) {
-			mapEmail.put(user.email, user);
-		}
-		
+				
 		public boolean verifyByRegex(String input, String regex) {
 		    boolean isInputValid = false;
 		    if (input != null && input.isEmpty() == false) {
@@ -54,20 +42,24 @@ public class WelcomeServices{
 		}
 		
 		public String searchUserByCpf(String inputCpf){
-			User user = mapCpf.get(inputCpf);
+			User user = this.mapCpf.get(inputCpf);
 			if(user != null) {
 				return user.greetUser(inputCpf);
 			}
-			return "NULOUsuário não encontrado";
+			return "Usuário não encontrado";
 		}
 		
 		public String searchUserByEmailAdress(String inputEmail){
-			User user = mapEmail.get(inputEmail);
+			User user = this.mapEmail.get(inputEmail);
 			if(user != null) {
 				return user.greetUser(inputEmail);
 			}
 			return "Usuário não encontrado";
 			
+		}
+		
+		public String listMap(Map<String, User> mapCpf) {
+			return mapCpf.toString();
 		}
 		
 		
