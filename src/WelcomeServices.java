@@ -2,6 +2,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class WelcomeServices{
 	    
@@ -9,15 +12,35 @@ public class WelcomeServices{
 		public Map<String, User> mapEmail = new HashMap<String, User>();
 		public boolean enableSearchByEmail;
 
-		public void inputEnableEmail(String s){
-			this.enableSearchByEmail = parseBoolean(s);
+		public Boolean getEnableSearchByEmailValueFromProperties(String filename) {
+
+			try (InputStream input = getClass().getClassLoader().getResourceAsStream(filename)) {
+
+				Properties prop = new Properties();
+
+				if (input == null) {
+					System.out.println("Sorry, unable to find " + filename);
+					return null;
+				}
+
+				prop.load(input);
+				return setStringToBoolean((String) prop.get("enableSearchByEmail"));
+			}
+			catch (IOException ex) {
+				ex.printStackTrace();
+			}
+			return null;
 		}
 
-		public static boolean parseBoolean(String s){
+		public void inputEnableSearchByEmail(String filename){
+			this.enableSearchByEmail = getEnableSearchByEmailValueFromProperties(filename);
+		}
+
+		public static boolean setStringToBoolean(String s){
 			return s.equals("true") || s.equals("1");
 		}
 
-		public void put(User user) {
+		public void putUser(User user) {
 			this.mapCpf.put(turnCpfNumbersOnly(user.cpf), user);
 			this.mapEmail.put(user.email, user);
 		}
@@ -70,6 +93,5 @@ public class WelcomeServices{
 		public String listMap(Map<String, User> mapCpf) {
 			return mapCpf.toString();
 		}
-		
-		
+
 }
