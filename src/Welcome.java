@@ -4,7 +4,6 @@ public class Welcome {
 		
 	public static void main(String[] args) {
 		WelcomeServices welcomeServices = new WelcomeServices();
-		System.out.println("Search by email: " + welcomeServices.getEnableSearchByEmailValueFromProperties("welcome.properties"));
 		welcomeServices.inputEnableSearchByEmail("welcome.properties");
 
 		User user1 = new User("123.456.789-01","alvaro@domain.com","Sr.","Álvaro","Magalhães");
@@ -25,9 +24,14 @@ public class Welcome {
 					if(welcomeServices.verifyEmailAdress(searchVariable)){
 						System.out.println(welcomeServices.searchUserByEmailAdress(searchVariable));
 					}
+					else {
+						System.out.println("Usuário não encontrado");
+						System.out.println("invalid CPF "+searchVariable);
+					}
 				}
 				else {
 					System.out.println("Usuário não encontrado");
+					System.out.println("invalid CPF "+searchVariable);
 				}
 			}
 		}

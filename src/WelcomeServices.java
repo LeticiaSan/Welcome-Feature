@@ -24,7 +24,16 @@ public class WelcomeServices{
 				}
 
 				prop.load(input);
-				return setStringToBoolean((String) prop.get("enableSearchByEmail"));
+
+				String stringProperty = (String) prop.get("enableSearchByEmail");
+				boolean booleanProperty = setStringToBoolean(stringProperty);
+
+				if(stringProperty == null){
+					System.out.println("Sorry, unable to find the property 'enableSearchByEmail' in " + filename);
+				}
+
+				System.out.println("Email search enabled: " + booleanProperty);
+				return booleanProperty;
 			}
 			catch (IOException ex) {
 				ex.printStackTrace();
@@ -33,16 +42,13 @@ public class WelcomeServices{
 		}
 
 		public void inputEnableSearchByEmail(String filename){
-			if(getEnableSearchByEmailValueFromProperties(filename)!= null)
-			{
-				this.enableSearchByEmail = getEnableSearchByEmailValueFromProperties(filename);
-			}
-			else {
-				this.enableSearchByEmail = false;
-			}
+			this.enableSearchByEmail = getEnableSearchByEmailValueFromProperties(filename);
 		}
 
-		public static boolean setStringToBoolean(String s){
+		public boolean setStringToBoolean(String s){
+			if(s == null){
+				return false;
+			}
 			return s.equals("true") || s.equals("1");
 		}
 
@@ -82,17 +88,17 @@ public class WelcomeServices{
 		public String searchUserByCpf(String inputCpf){
 			User user = this.mapCpf.get(turnCpfNumbersOnly(inputCpf));
 			if(user != null) {
-				return user.greetUser(inputCpf);
+				return user.greetUser(inputCpf) + "\nSearch made by the CPF " + inputCpf.charAt(0)+ inputCpf.charAt(1)+ inputCpf.charAt(2)+"*";
 			}
-			return "Usuário não encontrado";
+			return "Usuário não encontrado \nSearch made by the CPF \nCPF: " + inputCpf + ", not found";
 		}
 		
 		public String searchUserByEmailAdress(String inputEmail){
 			User user = this.mapEmail.get(inputEmail);
 			if(user != null) {
-				return user.greetUser(inputEmail);
+				return user.greetUser(inputEmail) +"\nSearch made by the Email";
 			}
-			return "Usuário não encontrado";
+			return "Usuário não encontrado \nSearch made by the Email \nEmail Adress: "+ inputEmail + ", not found";
 			
 		}
 		
