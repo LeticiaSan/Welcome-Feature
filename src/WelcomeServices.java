@@ -33,7 +33,13 @@ public class WelcomeServices{
 		}
 
 		public void inputEnableSearchByEmail(String filename){
-			this.enableSearchByEmail = getEnableSearchByEmailValueFromProperties(filename);
+			if(getEnableSearchByEmailValueFromProperties(filename)!= null)
+			{
+				this.enableSearchByEmail = getEnableSearchByEmailValueFromProperties(filename);
+			}
+			else {
+				this.enableSearchByEmail = false;
+			}
 		}
 
 		public static boolean setStringToBoolean(String s){
@@ -83,7 +89,7 @@ public class WelcomeServices{
 		
 		public String searchUserByEmailAdress(String inputEmail){
 			User user = this.mapEmail.get(inputEmail);
-			if(user != null && enableSearchByEmail) {
+			if(user != null) {
 				return user.greetUser(inputEmail);
 			}
 			return "Usuário não encontrado";
