@@ -20,7 +20,8 @@ public class WelcomeServices{
 
 				if (input == null) {
 					System.out.println("Sorry, unable to find " + filename);
-					return null;
+					System.out.println("Email search enabled: false");
+					return false;
 				}
 
 				prop.load(input);
@@ -90,7 +91,7 @@ public class WelcomeServices{
 			if(user != null) {
 				return user.greetUser(inputCpf) + "\nSearch made by the CPF " + inputCpf.charAt(0)+ inputCpf.charAt(1)+ inputCpf.charAt(2)+"*";
 			}
-			return "Usuário não encontrado \nSearch made by the CPF \nCPF: " + inputCpf + ", not found";
+			return "Usuário não encontrado \nSearch made by the CPF \nCPF: " + inputCpf.charAt(0)+ inputCpf.charAt(1)+ inputCpf.charAt(2) + "*, not found";
 		}
 		
 		public String searchUserByEmailAdress(String inputEmail){
