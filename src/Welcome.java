@@ -5,10 +5,10 @@ public class Welcome {
 	public static void main(String[] args) {
 		WelcomeServices welcomeServices = new WelcomeServices();
 		welcomeServices.inputEnableSearchByEmail("welcome.properties");
-
-		User user1 = new User("123.456.789-01","alvaro@domain.com","Sr.","Álvaro","Magalhães");
-		User user2 = new User("123.456.779-01","joao@domain.com","Dr.","João","House");
-		User user3 = new User("123.456.777-01","manuela@domain.com","Dra.","Manuela","Cavalcanti");
+		UserConstructor constructor = new UserConstructor();
+		User user1 = constructor.insertCpf("123.456.789-01").insertEmail("alvaro@domain.com").insertTitle("Sr.").insertFirst_name("Álvaro").insertLast_name("Magalhães").insertStyle("formal").construct();
+		User user2 = constructor.insertCpf("123.456.779-01").insertEmail("joao@domain.com").insertTitle("Dr.").insertFirst_name("João").insertLast_name("House").insertStyle("informal").construct();
+		User user3 = constructor.insertCpf("123.456.777-01").insertEmail("manuela@domain.com").insertTitle("Dra.").insertFirst_name("Manuela").insertLast_name("Cavalcanti").construct();
 
 		welcomeServices.putUser(user1);
 		welcomeServices.putUser(user2);
