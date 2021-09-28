@@ -7,8 +7,10 @@ public class Welcome {
 		welcomeServices.inputEnableSearchByEmail("welcome.properties");
 		UserConstructor constructor = new UserConstructor();
 		User user1 = constructor.insertCpf("123.456.789-01").insertEmail("alvaro@domain.com").insertTitle("Sr.").insertFirst_name("Álvaro").insertLast_name("Magalhães").insertStyle("formal").construct();
-		User user2 = constructor.insertCpf("123.456.779-01").insertEmail("joao@domain.com").insertTitle("Dr.").insertFirst_name("João").insertLast_name("House").insertStyle("informal").construct();
-		User user3 = constructor.insertCpf("123.456.777-01").insertEmail("manuela@domain.com").insertTitle("Dra.").insertFirst_name("Manuela").insertLast_name("Cavalcanti").construct();
+		User user2 = constructor.insertCpf("123.456.779-01").insertEmail("joao@domain.com").insertTitle("Dr.").insertFirst_name("João").insertLast_name("House").insertStyle("random").construct();
+		User user3 = constructor.insertCpf("123.456.777-01").insertEmail("manuela@domain.com").insertTitle("Dra.").insertFirst_name("Manuela").insertLast_name("Cavalcanti").insertStyle("").construct();
+
+		System.out.println(user3.toString());
 
 		welcomeServices.putUser(user1);
 		welcomeServices.putUser(user2);
@@ -25,6 +27,7 @@ public class Welcome {
 						System.out.println(welcomeServices.searchUserByEmailAdress(searchVariable));
 					}
 					else {
+
 						System.out.println("Usuário não encontrado");
 						System.out.println("invalid CPF "+searchVariable);
 					}

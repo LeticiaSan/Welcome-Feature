@@ -1,5 +1,7 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
+
 public class User {
 	public String cpf;
 	public String email;
@@ -9,8 +11,8 @@ public class User {
  	public String style;
 
 	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH");
-	public String hourNow = dtf.format(LocalDateTime.now());
-	public int hourNowInt = Integer.parseInt(hourNow);
+	public int hourNow = Integer.parseInt(dtf.format(LocalDateTime.now()));
+	Random random = new Random();
 
 	public User(String cpf, String email, String title, String first_name, String last_name, String style){
 		this.cpf = cpf;
@@ -21,25 +23,38 @@ public class User {
 		this.style = style;
 	}
 
-	public String greetUser(String searchVariable){
-		if(this.style.equals("formal")){
-			return formalGreetUser(searchVariable);
-		}
-		return informalGreetUser(searchVariable);
+	public String greetUser(){
+		System.out.println("style: " + this.style);
+		return switch (this.style){
+			case "formal" -> greetType(1);
+			case "informal" -> greetType(2);
+			case "casual" -> greetType(3);
+			case "southtern" -> greetType(4);
+			case "random" -> greetType(random.nextInt(5));
+			default -> greetType(0);
+		};
 	}
-	public String formalGreetUser(String searchVariable) {
-		if(hourNowInt > 5 && hourNowInt < 12) {
+
+	public String greetType(int number){
+		return switch (number) {
+			case 1 -> formalGreetUser();
+			case 2 -> "Hi there, " + this.title + " " + this.first_name + " " + this.last_name;
+			case 3 -> "Yo, " + this.title + " " + this.first_name + " " + this.last_name;
+			case 4 -> "Howdy, " + this.title + " " + this.first_name + " " + this.last_name;
+			default -> "Hello, " + this.title + " " + this.first_name + " " + this.last_name;
+		};
+	}
+
+	public String formalGreetUser() {
+		if(hourNow > 5 && hourNow < 12) {
 			return "Good Morning, " + this.title + " " + this.first_name + " " + this.last_name;
 		}
-		if(hourNowInt < 18){
+		if(hourNow < 18){
 			return "Good Afternoon, " + this.title + " " + this.first_name + " " + this.last_name;
 		}
 		return "Good Evening, " + this.title + " " + this.first_name + " " + this.last_name;
 	}
-	public String informalGreetUser(String searchVariable) {
-		return "Hello, " + this.title + " " + this.first_name + " " + this.last_name;
-	}
-	
+
 	@Override
 	public String toString() {
 		return "User [cpf=" + cpf + ", email=" + email + ", title=" + title + ", first_name=" + first_name
