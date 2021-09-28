@@ -89,7 +89,7 @@ public class WelcomeServices{
 		public String searchUserByCpf(String inputCpf){
 			User user = this.mapCpf.get(turnCpfNumbersOnly(inputCpf));
 			if(user != null) {
-				return user.greetUser(inputCpf) + "\nSearch made by the CPF " + inputCpf.charAt(0)+ inputCpf.charAt(1)+ inputCpf.charAt(2)+"*";
+				return user.greetUser() + "\nSearch made by the CPF " + inputCpf.charAt(0)+ inputCpf.charAt(1)+ inputCpf.charAt(2)+"*";
 			}
 			return "Usuário não encontrado \nSearch made by the CPF \nCPF: " + inputCpf.charAt(0)+ inputCpf.charAt(1)+ inputCpf.charAt(2) + "*, not found";
 		}
@@ -97,7 +97,7 @@ public class WelcomeServices{
 		public String searchUserByEmailAdress(String inputEmail){
 			User user = this.mapEmail.get(inputEmail);
 			if(user != null) {
-				return user.greetUser(inputEmail) +"\nSearch made by the Email";
+				return user.greetUser() +"\nSearch made by the Email";
 			}
 			return "Usuário não encontrado \nSearch made by the Email \nEmail Adress: "+ inputEmail + ", not found";
 			
