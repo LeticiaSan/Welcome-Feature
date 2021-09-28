@@ -5,12 +5,20 @@ import java.util.regex.Pattern;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Random;
+
+
 
 public class WelcomeServices{
 	    
 		public Map<String, User> mapCpf = new HashMap<String, User>();
 		public Map<String, User> mapEmail = new HashMap<String, User>();
 		public boolean enableSearchByEmail;
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH");
+		public int hourNow = Integer.parseInt(dtf.format(LocalDateTime.now()));
+		Random random = new Random();
 
 		public Boolean getEnableSearchByEmailValueFromProperties(String filename) {
 
@@ -89,7 +97,7 @@ public class WelcomeServices{
 		public String searchUserByCpf(String inputCpf){
 			User user = this.mapCpf.get(turnCpfNumbersOnly(inputCpf));
 			if(user != null) {
-				return user.greetUser() + "\nSearch made by the CPF " + inputCpf.charAt(0)+ inputCpf.charAt(1)+ inputCpf.charAt(2)+"*";
+				return greetUser(user) + "\nSearch made by the CPF " + inputCpf.charAt(0)+ inputCpf.charAt(1)+ inputCpf.charAt(2)+"*";
 			}
 			return "Usuário não encontrado \nSearch made by the CPF \nCPF: " + inputCpf.charAt(0)+ inputCpf.charAt(1)+ inputCpf.charAt(2) + "*, not found";
 		}
@@ -97,12 +105,44 @@ public class WelcomeServices{
 		public String searchUserByEmailAdress(String inputEmail){
 			User user = this.mapEmail.get(inputEmail);
 			if(user != null) {
-				return user.greetUser() +"\nSearch made by the Email";
+				return greetUser(user) +"\nSearch made by the Email";
 			}
 			return "Usuário não encontrado \nSearch made by the Email \nEmail Adress: "+ inputEmail + ", not found";
 			
 		}
-		
+
+		public String greetUser(User user){
+			System.out.println("style: " + user.style);
+			return switch (user.style){
+				case "formal" -> greetType(user,1);
+				case "informal" -> greetType(user, 2);
+				case "casual" -> greetType(user,3);
+				case "southtern" -> greetType(user,4);
+				case "random" -> greetType(user,random.nextInt(5));
+				default -> greetType(user,0);
+			};
+		}
+
+		public String greetType(User user, int number){
+			return switch (number) {
+				case 1 -> formalGreetUser(user);
+				case 2 -> "Hi there, " + user.title + " " + user.first_name + " " + user.last_name;
+				case 3 -> "Yo, " + user.title + " " + user.first_name + " " + user.last_name;
+				case 4 -> "Howdy, " + user.title + " " + user.first_name + " " + user.last_name;
+				default -> "Hello, " + user.title + " " + user.first_name + " " + user.last_name;
+			};
+		}
+
+		public String formalGreetUser(User user) {
+			if(hourNow > 5 && hourNow < 12) {
+				return "Good Morning, " + user.title + " " + user.first_name + " " + user.last_name;
+			}
+			if(hourNow < 18){
+				return "Good Afternoon, " + user.title + " " + user.first_name + " " + user.last_name;
+			}
+			return "Good Evening, " + user.title + " " + user.first_name + " " + user.last_name;
+		}
+
 		public String listMap(Map<String, User> mapCpf) {
 			return mapCpf.toString();
 		}
