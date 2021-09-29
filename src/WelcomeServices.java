@@ -9,8 +9,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
-
-
 public class WelcomeServices{
 	    
 		public Map<String, User> mapCpf = new HashMap<String, User>();
@@ -61,11 +59,21 @@ public class WelcomeServices{
 			return s.equals("true") || s.equals("1");
 		}
 
-		public void putUser(User user) {
+		public void putUser(User user, UserConstructor constructor) {
 			this.mapCpf.put(turnCpfNumbersOnly(user.cpf), user);
 			this.mapEmail.put(user.email, user);
+			cleanConstructor(constructor);
 		}
-				
+
+		public void cleanConstructor(UserConstructor constructor){
+			constructor.cpf = null;
+			constructor.email = null;
+			constructor.title = null;
+			constructor.first_name = null;
+			constructor.last_name = null;
+			constructor.style = null;
+		}
+
 		public boolean verifyByRegex(String input, String regex) {
 		    boolean isInputValid = false;
 		    if (input != null && !input.isEmpty()) {
@@ -113,14 +121,19 @@ public class WelcomeServices{
 
 		public String greetUser(User user){
 			System.out.println("style: " + user.style);
-			return switch (user.style){
-				case "formal" -> greetType(user,1);
-				case "informal" -> greetType(user, 2);
-				case "casual" -> greetType(user,3);
-				case "southtern" -> greetType(user,4);
-				case "random" -> greetType(user,random.nextInt(5));
-				default -> greetType(user,0);
-			};
+			if (user.style != null) {
+				return switch (user.style) {
+					case "formal" -> greetType(user, 1);
+					case "informal" -> greetType(user, 2);
+					case "casual" -> greetType(user, 3);
+					case "southtern" -> greetType(user, 4);
+					case "random" -> greetType(user, random.nextInt(5));
+					default -> greetType(user, 0);
+				};
+			}
+			else {
+				return greetType(user, 0);
+			}
 		}
 
 		public String greetType(User user, int number){
