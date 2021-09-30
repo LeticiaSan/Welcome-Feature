@@ -11,8 +11,8 @@ import java.util.Random;
 
 public class WelcomeServices{
 	    
-		public Map<String, User> mapCpf = new HashMap<String, User>();
-		public Map<String, User> mapEmail = new HashMap<String, User>();
+		public Map<String, User> mapCpf = new HashMap<>();
+		public Map<String, User> mapEmail = new HashMap<>();
 		public boolean enableSearchByEmail;
 		public boolean enableCustomUserStyles;
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH");
@@ -154,10 +154,5 @@ public class WelcomeServices{
 			}
 			return "Good Evening, " + user.title + " " + user.first_name + " " + user.last_name;
 		}
-
-		public String listMap(Map<String, User> mapCpf) {
-			return mapCpf.toString();
-		}
-
 
 }
