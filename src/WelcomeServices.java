@@ -14,6 +14,7 @@ public class WelcomeServices{
 		public Map<String, User> mapCpf = new HashMap<String, User>();
 		public Map<String, User> mapEmail = new HashMap<String, User>();
 		public boolean enableSearchByEmail;
+		public boolean enableCustomUserStyles;
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH");
 		public int hourNow = Integer.parseInt(dtf.format(LocalDateTime.now()));
 		Random random = new Random();
@@ -50,6 +51,40 @@ public class WelcomeServices{
 
 		public void inputEnableSearchByEmail(String filename){
 			this.enableSearchByEmail = getEnableSearchByEmailValueFromProperties(filename);
+		}
+
+		public Boolean getEnableCustomUserStylesValueFromProperties(String filename) {
+
+		try (InputStream input = getClass().getClassLoader().getResourceAsStream(filename)) {
+
+			Properties prop = new Properties();
+
+			if (input == null) {
+				System.out.println("Sorry, unable to find " + filename);
+				System.out.println("Custom user Styles enabled: false");
+				return false;
+			}
+
+			prop.load(input);
+
+			String stringProperty = (String) prop.get("enableCustomUserStyles");
+			boolean booleanProperty = setStringToBoolean(stringProperty);
+
+			if(stringProperty == null){
+				System.out.println("Sorry, unable to find the property 'enableCustomUserStyles' in " + filename);
+			}
+
+			System.out.println("Custom user Styles enabled: " + booleanProperty);
+			return booleanProperty;
+		}
+		catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
+		public void inputEnableCustomUserStyles(String filename){
+			this.enableCustomUserStyles = getEnableCustomUserStylesValueFromProperties(filename);
 		}
 
 		public boolean setStringToBoolean(String s){
@@ -121,7 +156,7 @@ public class WelcomeServices{
 
 		public String greetUser(User user){
 			System.out.println("style: " + user.style);
-			if (user.style != null) {
+			if (user.style != null && enableCustomUserStyles) {
 				return switch (user.style) {
 					case "formal" -> greetType(user, 1);
 					case "informal" -> greetType(user, 2);
@@ -137,6 +172,7 @@ public class WelcomeServices{
 		}
 
 		public String greetType(User user, int number){
+			//if()
 			return switch (number) {
 				case 1 -> formalGreetUser(user);
 				case 2 -> "Hi there, " + user.title + " " + user.first_name + " " + user.last_name;
