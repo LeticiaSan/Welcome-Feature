@@ -19,28 +19,25 @@ public class WelcomeServices{
 		public int hourNow = Integer.parseInt(dtf.format(LocalDateTime.now()));
 		Random random = new Random();
 
-		public Boolean getEnableSearchByEmailValueFromProperties(String filename) {
+
+		public Boolean getPropertiesFromPropertiesFile(String filename, String property) {
 
 			try (InputStream input = getClass().getClassLoader().getResourceAsStream(filename)) {
-
 				Properties prop = new Properties();
-
 				if (input == null) {
 					System.out.println("Sorry, unable to find " + filename);
-					System.out.println("Email search enabled: false");
 					return false;
 				}
 
 				prop.load(input);
 
-				String stringProperty = (String) prop.get("enableSearchByEmail");
+				String stringProperty = (String) prop.get(property);
 				boolean booleanProperty = setStringToBoolean(stringProperty);
 
 				if(stringProperty == null){
-					System.out.println("Sorry, unable to find the property 'enableSearchByEmail' in " + filename);
+					System.out.println("Sorry, unable to find the property" + property + " in " + filename);
 				}
-
-				System.out.println("Email search enabled: " + booleanProperty);
+				System.out.println(property + ": " + booleanProperty);
 				return booleanProperty;
 			}
 			catch (IOException ex) {
@@ -49,42 +46,9 @@ public class WelcomeServices{
 			return null;
 		}
 
-		public void inputEnableSearchByEmail(String filename){
-			this.enableSearchByEmail = getEnableSearchByEmailValueFromProperties(filename);
-		}
-
-		public Boolean getEnableCustomUserStylesValueFromProperties(String filename) {
-
-		try (InputStream input = getClass().getClassLoader().getResourceAsStream(filename)) {
-
-			Properties prop = new Properties();
-
-			if (input == null) {
-				System.out.println("Sorry, unable to find " + filename);
-				System.out.println("Custom user Styles enabled: false");
-				return false;
-			}
-
-			prop.load(input);
-
-			String stringProperty = (String) prop.get("enableCustomUserStyles");
-			boolean booleanProperty = setStringToBoolean(stringProperty);
-
-			if(stringProperty == null){
-				System.out.println("Sorry, unable to find the property 'enableCustomUserStyles' in " + filename);
-			}
-
-			System.out.println("Custom user Styles enabled: " + booleanProperty);
-			return booleanProperty;
-		}
-		catch (IOException ex) {
-			ex.printStackTrace();
-		}
-		return null;
-	}
-
-		public void inputEnableCustomUserStyles(String filename){
-			this.enableCustomUserStyles = getEnableCustomUserStylesValueFromProperties(filename);
+		public void inputPropertiesFile(String filename){
+			this.enableSearchByEmail = getPropertiesFromPropertiesFile(filename, "enableSearchByEmail");
+			this.enableCustomUserStyles = getPropertiesFromPropertiesFile(filename, "enableCustomUserStyles");
 		}
 
 		public boolean setStringToBoolean(String s){
@@ -172,7 +136,6 @@ public class WelcomeServices{
 		}
 
 		public String greetType(User user, int number){
-			//if()
 			return switch (number) {
 				case 1 -> formalGreetUser(user);
 				case 2 -> "Hi there, " + user.title + " " + user.first_name + " " + user.last_name;

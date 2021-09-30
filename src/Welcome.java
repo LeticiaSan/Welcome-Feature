@@ -5,8 +5,7 @@ public class Welcome {
 		
 	public static void main(String[] args) {
 		WelcomeServices welcomeServices = new WelcomeServices();
-		welcomeServices.inputEnableSearchByEmail("welcome.properties");
-		welcomeServices.inputEnableCustomUserStyles("welcome.properties");
+		welcomeServices.inputPropertiesFile("welcome.properties");
 		UserConstructor constructor = new UserConstructor();
 
 		User user1 = constructor.insertCpf("123.456.789-01").insertEmail("alvaro@domain.com").insertTitle("Sr.").insertFirst_name("Álvaro").insertLast_name("Magalhães").insertStyle("formal").construct();
