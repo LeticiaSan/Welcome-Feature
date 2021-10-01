@@ -5,33 +5,27 @@ public class Welcome {
 		
 	public static void main(String[] args) {
 		WelcomeServices welcomeServices = new WelcomeServices();
-		welcomeServices.inputPropertiesFile("welcome.properties");
-		UserConstructor constructor = new UserConstructor();
 
-		User user1 = constructor.insertCpf("123.456.789-01").insertEmail("alvaro@domain.com").insertTitle("Sr.").insertFirst_name("Álvaro").insertLast_name("Magalhães").insertStyle("formal").construct();
-		welcomeServices.putUser(user1, constructor);
+		User user1 = new User("123.456.789-01","alvaro@domain.com","Sr.","Álvaro", "Magalhães");
+		user1.setStyle("formal");
+		welcomeServices.putUser(user1);
 
-		User user2 = constructor.insertCpf("123.456.779-01").insertEmail("joao@domain.com").insertTitle("Dr.").insertFirst_name("João").insertLast_name("House").insertStyle("casual").construct();
-		welcomeServices.putUser(user2, constructor);
+		User user2 = new User("123.456.779-01","joao@domain.com","Dr.","João","House");
+		user2.setStyle("casual");
+		welcomeServices.putUser(user2);
 
-		User user3 = constructor.insertCpf("123.456.777-01").insertEmail("manuela@domain.com").insertTitle("Dra.").insertFirst_name("Manuela").insertLast_name("Cavalcanti").construct();
-		welcomeServices.putUser(user3, constructor);
+		User user3 = new User ("123.456.777-01","manuela@domain.com","Dra.","Manuela","Cavalcanti");
+		welcomeServices.putUser(user3);
 
 		try (Scanner sc = new Scanner(System.in)) {
 			while(true){
 				String searchVariable = sc.nextLine();
+				if(searchVariable.equals("0")){break;}
 				if(welcomeServices.verifyCpf(searchVariable)) {
 					System.out.println(welcomeServices.searchUserByCpf(searchVariable));
 				}
-				else if(welcomeServices.enableSearchByEmail){
-					if(welcomeServices.verifyEmailAdress(searchVariable)){
-						System.out.println(welcomeServices.searchUserByEmailAdress(searchVariable));
-					}
-					else {
-
-						System.out.println("Usuário não encontrado");
-						System.out.println("invalid CPF "+searchVariable);
-					}
+				else if(welcomeServices.verifyEmailAdress(searchVariable)){
+					System.out.println(welcomeServices.searchUserByEmailAdress(searchVariable));
 				}
 				else {
 					System.out.println("Usuário não encontrado");
