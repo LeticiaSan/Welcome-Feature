@@ -4,17 +4,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-//import java.util.Random;
+import java.util.Random;
+import java.util.logging.*;
 
+/**Class containing methods aimed at the user's welcome greeting*/
 public class WelcomeServices{
-	    
+		private final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 		public Map<String, User> mapCpf = new HashMap<>();
 		public Map<String, User> mapEmail = new HashMap<>();
 		public Map<String, String> mapGreetStyle = new HashMap<>();
 		WelcomeProperties welcomeProperties = new WelcomeProperties();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH");
 		public int hourNow = Integer.parseInt(dtf.format(LocalDateTime.now()));
-		//Random random = new Random();
+		Random random = new Random();
 
 		/** Method for register a File with the properties*/
 		public void putFileProperties(){
@@ -30,11 +32,18 @@ public class WelcomeServices{
 
 		/** Method for register a User in mapCpf and mapEmail*/
 		public void putGreetStyle(){
-			this.mapGreetStyle.put("default","Hello, ");
-			this.mapGreetStyle.put("formal",formalGreetUser());
-			this.mapGreetStyle.put("informal","Hi there, ");
-			this.mapGreetStyle.put("casual","Yo, ");
-			this.mapGreetStyle.put("southern","Howdy, ");
+			String[] type = new String[5];
+			type[0] = "Hello, ";
+			type[1] = formalGreetUser();
+			type[2] = "Hi there, ";
+			type[3] = "Yo, ";
+			type[4] = "Howdy, ";
+			this.mapGreetStyle.put("default",type[0]);
+			this.mapGreetStyle.put("formal",type[1]);
+			this.mapGreetStyle.put("informal",type[2]);
+			this.mapGreetStyle.put("casual",type[3]);
+			this.mapGreetStyle.put("southern",type[4]);
+			this.mapGreetStyle.put("random", type[random.nextInt(5)] );
 		}
 
 		/** Method for check the validation of an input, by its regex
@@ -88,9 +97,11 @@ public class WelcomeServices{
 		public String searchUserByCpf(String inputCpf){
 			User user = this.mapCpf.get(turnCpfNumbersOnly(inputCpf));
 			if(user != null) {
-				return greetUser(user) + "\nSearch made by the CPF " + inputCpf.charAt(0)+ inputCpf.charAt(1)+ inputCpf.charAt(2)+"*";
+				logr.log(Level.INFO, "search made by cpf. " + inputCpf.charAt(0) + inputCpf.charAt(1) + inputCpf.charAt(2) + "*");
+				return greetUser(user);
 			}
-			return "Usuário não encontrado \nSearch made by the CPF \nCPF: " + inputCpf.charAt(0)+ inputCpf.charAt(1)+ inputCpf.charAt(2) + "*, not found";
+			logr.log(Level.WARNING, "cpf: "+  inputCpf.charAt(0)+ inputCpf.charAt(1)+ inputCpf.charAt(2) +  "*, not found.");
+			return "Usuário não encontrado";
 		}
 
 		/** Method for search a user with it respective email
@@ -99,9 +110,11 @@ public class WelcomeServices{
 		public String searchUserByEmailAdress(String inputEmail){
 			User user = this.mapEmail.get(inputEmail);
 			if(user != null) {
-				return greetUser(user) +"\nSearch made by the Email";
+				logr.log(Level.INFO, "search made by email. " + inputEmail);
+				return greetUser(user);
 			}
-			return "Usuário não encontrado \nSearch made by the Email \nEmail Adress: "+ inputEmail + ", not found";
+			logr.log(Level.WARNING,inputEmail+" not found.");
+			return "Usuário não encontrado";
 			
 		}
 
@@ -111,8 +124,9 @@ public class WelcomeServices{
 		public String greetUser(User user){
 			putGreetStyle();
 			putFileProperties();
-			if (user.getStyle() != null && welcomeProperties.getEnableCustomUserStyles()) {
-				return mapGreetStyle.get(user.getStyle()) + user.getTitle() + " " + user.getFirst_name() + " " + user.getLast_name();
+			String userStyle = user.getStyle();
+			if (userStyle != null && welcomeProperties.getEnableCustomUserStyles()) {
+				return mapGreetStyle.get(userStyle) + user.getTitle() + " " + user.getFirst_name() + " " + user.getLast_name();
 			}
 			else {
 				return mapGreetStyle.get("default") +  user.getTitle() + " " + user.getFirst_name() + " " + user.getLast_name();

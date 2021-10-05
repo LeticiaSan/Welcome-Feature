@@ -1,8 +1,10 @@
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.*;
 
 public class Welcome {
-	
-		
+	private final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
 	public static void main(String[] args) {
 		WelcomeServices welcomeServices = new WelcomeServices();
 
@@ -11,7 +13,7 @@ public class Welcome {
 		welcomeServices.putUser(user1);
 
 		User user2 = new User("123.456.779-01","joao@domain.com","Dr.","João","House");
-		user2.setStyle("casual");
+		user2.setStyle("random");
 		welcomeServices.putUser(user2);
 
 		User user3 = new User ("123.456.777-01","manuela@domain.com","Dra.","Manuela","Cavalcanti");
@@ -29,7 +31,7 @@ public class Welcome {
 				}
 				else {
 					System.out.println("Usuário não encontrado");
-					System.out.println("invalid CPF "+searchVariable);
+					logr.log(Level.WARNING, "invalid cpf: " + searchVariable);
 				}
 			}
 		}

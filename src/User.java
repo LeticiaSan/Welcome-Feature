@@ -1,4 +1,5 @@
-public class User {
+/**Class for objects of type Users, where values and methods for it will be contained.*/
+ public class User {
 	private String cpf;
 	private String email;
 	private String title;

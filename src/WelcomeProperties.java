@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**Class containing methods for retrieving the properties file and defining attributes through this file*/
 public class WelcomeProperties {
     private boolean enableSearchByEmail;
     private boolean enableCustomUserStyles;
@@ -16,12 +17,18 @@ public class WelcomeProperties {
         this.enableCustomUserStyles = enableCustomUserStyles;
     }
 
+    /** Method for implement a properties file
+     * @param filename - name of the properties file */
     public void inputPropertiesFile(String filename){
-        setEnableSearchByEmail(getPropertiesFromPropertiesFile(filename, "enableSearchByEmail"));
-        setEnableCustomUserStyles(getPropertiesFromPropertiesFile(filename, "enableCustomUserStyles"));
+        setEnableSearchByEmail(getBooleanPropertiesFromPropertiesFile(filename, "enableSearchByEmail"));
+        setEnableCustomUserStyles(getBooleanPropertiesFromPropertiesFile(filename, "enableCustomUserStyles"));
     }
 
-    public Boolean getPropertiesFromPropertiesFile(String filename, String property) {
+    /** Method for get a boolean property from a file
+     * @param filename - name of the file where the property is located
+     * @param property - property that will be redeemed from the file
+     * @return Boolean - returns true or false according to the requested property*/
+    public Boolean getBooleanPropertiesFromPropertiesFile(String filename, String property) {
 
         try (InputStream input = getClass().getClassLoader().getResourceAsStream(filename)) {
             Properties prop = new Properties();
@@ -46,6 +53,9 @@ public class WelcomeProperties {
         return null;
     }
 
+    /** Method for set a string to boolean type
+     * @param s - string that will be boolean
+     * @return Boolean - returns true or false according to the string*/
     public boolean setStringToBoolean(String s){
         if(s == null){
             return false;
