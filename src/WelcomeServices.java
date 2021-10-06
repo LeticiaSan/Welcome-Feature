@@ -1,3 +1,5 @@
+//import java.util.Arrays;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -97,7 +99,7 @@ public class WelcomeServices{
 		public String searchUserByCpf(String inputCpf){
 			User user = this.mapCpf.get(turnCpfNumbersOnly(inputCpf));
 			if(user != null) {
-				logr.log(Level.INFO, "search made by cpf. " + inputCpf.charAt(0) + inputCpf.charAt(1) + inputCpf.charAt(2) + "*");
+				logr.log(Level.INFO, "search made by cpf " + inputCpf.charAt(0) + inputCpf.charAt(1) + inputCpf.charAt(2) + "*");
 				return greetUser(user);
 			}
 			logr.log(Level.WARNING, "cpf: "+  inputCpf.charAt(0)+ inputCpf.charAt(1)+ inputCpf.charAt(2) +  "*, not found.");
@@ -110,7 +112,7 @@ public class WelcomeServices{
 		public String searchUserByEmailAdress(String inputEmail){
 			User user = this.mapEmail.get(inputEmail);
 			if(user != null) {
-				logr.log(Level.INFO, "search made by email. " + inputEmail);
+				logr.log(Level.INFO, "search made by email " + showOnlyEmailDomain(inputEmail));
 				return greetUser(user);
 			}
 			logr.log(Level.WARNING,inputEmail+" not found.");
@@ -143,6 +145,22 @@ public class WelcomeServices{
 				return "Good Afternoon, ";
 			}
 			return "Good Evening, ";
+		}
+
+		public String showOnlyEmailDomain(String email){
+			int emailLength = email.length();
+			int domainStartPosition = 0;
+			String emailDomain = "*";
+
+			for (int i = 0; i < emailLength; i++) {
+				if (email.charAt(i) == '@') {
+					domainStartPosition = i;
+				}
+				if(domainStartPosition != 0){
+					emailDomain = emailDomain + email.charAt(i);
+				}
+			}
+			return emailDomain;
 		}
 
 }
